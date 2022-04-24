@@ -13,5 +13,5 @@ public interface ExpressionParser {
      *
      * @return set of {@link ExpressionGroup}
      */
-    Set<LabelExpression> parse();
+    Set<LabelExpressions> parse();
 }

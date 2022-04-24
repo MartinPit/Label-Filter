@@ -18,24 +18,24 @@ public class Parser implements ExpressionParser {
         originalInput = expression;
     }
 
-    public Set<LabelExpression> parse() {
+    public Set<LabelExpressions> parse() {
         String input = originalInput;
-        Set<LabelExpression> conditions = new HashSet<>();
+        Set<LabelExpressions> conditions = new HashSet<>();
         input = input.trim();
         throwIfInvalid(input);
 
         String[] parts = input.split("\\|");
 
         for (String part : parts) {
-            LabelExpression condition = checkAndSplitByAnd(part);
+            LabelExpressions condition = checkAndSplitByAnd(part);
             conditions.add(condition);
         }
 
         return conditions;
     }
 
-    private LabelExpression checkAndSplitByAnd(String input) {
-        LabelExpression group = new ExpressionGroup();
+    private LabelExpressions checkAndSplitByAnd(String input) {
+        LabelExpressions group = new ExpressionGroup();
         boolean negation = false;
         input = input.trim();
         throwIfInvalid(input);

@@ -6,16 +6,15 @@ import cz.muni.fi.pb162.hw02.LabelFilter;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Predicate;
 
 /**
  * @author Martin Oliver Pitonak
  */
 public class Filter implements LabelFilter {
 
-    private final Set<LabelExpression> expression;
+    private final Set<LabelExpressions> expression;
 
-    public Filter(Set<LabelExpression> expression) {
+    public Filter(Set<LabelExpressions> expression) {
         this.expression = new HashSet<>(expression);
     }
     @Override

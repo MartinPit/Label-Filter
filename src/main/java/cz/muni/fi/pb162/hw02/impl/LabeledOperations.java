@@ -25,7 +25,7 @@ public final class LabeledOperations {
      */
     public static LabelMatcher expressionMatcher(String expression) {
         ExpressionParser parser = new Parser(expression);
-        Set<LabelExpression> conditions = parser.parse();
+        Set<LabelExpressions> conditions = parser.parse();
 
         if (conditions == null) {
             throw new InvalidExpressionException(expression);
@@ -44,7 +44,7 @@ public final class LabeledOperations {
      */
     public static LabelFilter expressionFilter(String expression) {
         ExpressionParser parser = new Parser(expression);
-        Set<LabelExpression> conditions = parser.parse();
+        Set<LabelExpressions> conditions = parser.parse();
 
         if (conditions == null) {
             throw new InvalidExpressionException(expression);

@@ -1,10 +1,10 @@
 package cz.muni.fi.pb162.hw02.impl;
 
-import cz.muni.fi.pb162.hw02.HasLabels;
 import cz.muni.fi.pb162.hw02.impl.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
 
 /**
@@ -14,22 +14,12 @@ import java.util.function.Predicate;
  *
  * @author Martin Oliver Pitonak
  */
-public class ExpressionGroup implements LabelExpression {
+public class ExpressionGroup implements LabelExpressions {
 
     private List<Predicate<String>> expressions;
 
     public ExpressionGroup() {
         expressions = new ArrayList<>();
-    }
-
-    @Override
-    public Predicate<String> getExpression(int index) {
-
-        if (index < 0 || index >= expressions.size()) {
-            return null;
-        }
-
-        return expressions.get(index);
     }
 
     @Override
@@ -41,23 +31,29 @@ public class ExpressionGroup implements LabelExpression {
         Predicate<String> predicate = s -> s.equals(expression);
 
         if (negation) {
-            System.out.printf("negative ");
             predicate = predicate.negate();
         }
-
-        System.out.println(expression);
         expressions.add(predicate);
 
         return true;
     }
 
     @Override
-    public int amount() {
-        return expressions.size();
+    public boolean checkMatch(Set<String> labels) {
+        for (Predicate<String> predicate : expressions) {
+            if (! checkAgainstPredicate(predicate, labels)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    @Override
-    public boolean evaluate(int index, HasLabels item) {
+    private boolean checkAgainstPredicate(Predicate<String> predicate, Set<String> labels) {
+        for (String label : labels) {
+            if (predicate.test(label)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -66,12 +62,5 @@ public class ExpressionGroup implements LabelExpression {
         String onlyAlphaNumeric = StringUtils.takeWhile(input, Character::isLetterOrDigit);
 
         return onlyAlphaNumeric.length() == input.length();
-    }
-
-    @Override
-    public String toString() {
-        return "ExpressionGroup{" +
-                "expressions=" + expressions +
-                '}';
     }
 }

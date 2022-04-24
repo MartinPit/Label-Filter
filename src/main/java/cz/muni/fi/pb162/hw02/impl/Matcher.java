@@ -11,29 +11,51 @@ import java.util.Set;
  */
 public class Matcher implements LabelMatcher {
 
-    private final Set<LabelExpression> expression;
+    private final Set<LabelExpressions> expressions;
 
-    public Matcher(Set<LabelExpression> expression) {
-        this.expression = new HashSet<>(expression);
+    public Matcher(Set<LabelExpressions> expressions) {
+        this.expressions = new HashSet<>(expressions);
     }
 
     @Override
     public boolean matches(HasLabels labeled) {
+        Set<String> labels = labeled.getLabels();
+
+        for (LabelExpressions group : expressions) {
+            if (group.checkMatch(labels)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean all(Iterable<HasLabels> labeled) {
-        return false;
+        for (HasLabels item : labeled) {
+            if (! matches(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public boolean any(Iterable<HasLabels> labeled) {
+        for (HasLabels item : labeled) {
+            if (matches(item)) {
+                return true;
+            }
+        }
         return false;
     }
 
     @Override
     public boolean none(Iterable<HasLabels> labeled) {
-        return false;
+        for (HasLabels item : labeled) {
+            if (matches(item)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
