@@ -8,6 +8,6 @@ import static cz.muni.fi.pb162.hw02.impl.LabeledOperations.expressionMatcher;
 public class Demo {
 
     public static void main(String[] args) {
-        expressionMatcher("bees | nice & !!!news");
+        expressionMatcher("& label");
     }
 }
