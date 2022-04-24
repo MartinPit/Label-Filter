@@ -29,7 +29,7 @@ public interface LabelExpression {
      * @param expression expression to add
      * @return true if adding was successful, false otherwise
      */
-    boolean addExpression(String expression);
+    boolean addExpression(String expression, boolean negation);
 
     /**
      *

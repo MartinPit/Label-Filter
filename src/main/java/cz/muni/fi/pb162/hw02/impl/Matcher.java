@@ -11,9 +11,9 @@ import java.util.Set;
  */
 public class Matcher implements LabelMatcher {
 
-    private final Set<ExpressionGroup> expression;
+    private final Set<LabelExpression> expression;
 
-    public Matcher(Set<ExpressionGroup> expression) {
+    public Matcher(Set<LabelExpression> expression) {
         this.expression = new HashSet<>(expression);
     }
 

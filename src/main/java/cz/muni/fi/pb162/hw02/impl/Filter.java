@@ -13,9 +13,9 @@ import java.util.function.Predicate;
  */
 public class Filter implements LabelFilter {
 
-    private final Set<ExpressionGroup> expression;
+    private final Set<LabelExpression> expression;
 
-    public Filter(Set<ExpressionGroup> expression) {
+    public Filter(Set<LabelExpression> expression) {
         this.expression = new HashSet<>(expression);
     }
     @Override
