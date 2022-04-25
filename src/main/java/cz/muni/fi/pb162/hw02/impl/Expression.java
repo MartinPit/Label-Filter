@@ -58,4 +58,3 @@ public class Expression implements Predicate<Set<String>> {
         return expression;
     }
 }
-

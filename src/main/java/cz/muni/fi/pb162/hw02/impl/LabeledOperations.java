@@ -24,14 +24,7 @@ public final class LabeledOperations {
      * @return expression-based label matcher
      */
     public static LabelMatcher expressionMatcher(String expression) {
-        ExpressionParser parser = new Parser(expression);
-        Set<LabelExpressions> conditions = parser.parse();
-
-        if (conditions == null) {
-            throw new InvalidExpressionException(expression);
-        }
-
-        return new Matcher(conditions);
+        return null;
     }
 
     /**
@@ -43,13 +36,6 @@ public final class LabeledOperations {
      * @return expression-based label filter
      */
     public static LabelFilter expressionFilter(String expression) {
-        ExpressionParser parser = new Parser(expression);
-        Set<LabelExpressions> conditions = parser.parse();
-
-        if (conditions == null) {
-            throw new InvalidExpressionException(expression);
-        }
-
-        return new Filter(conditions);
+        return null;
     }
 }

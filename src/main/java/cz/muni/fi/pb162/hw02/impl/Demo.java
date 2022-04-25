@@ -19,10 +19,7 @@ public class Demo {
      * @param args cmd args
      */
     public static void main(String[] args) {
-        LabelFilter filter = LabeledOperations.expressionFilter("fish | bees & !Story");
-        LabelMatcher matcher = LabeledOperations.expressionMatcher("fish | bees & !Story");
-        List<HasLabels> articles = List.of(BEES, PLANTS, DOGS, SHARKS, STING, MOBY, POOH);
-        System.out.println(matcher.matches(MOBY));
-        System.out.println(filter.matching(articles));
+        Parser parser = new Parser(" nice  | shit &  !!  bro| bge&wwc   ");
+        parser.parse();
     }
 }
