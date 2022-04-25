@@ -1,7 +1,6 @@
 package cz.muni.fi.pb162.hw02.impl;
 
 import java.util.Set;
-import java.util.function.Predicate;
 
 /**
  *
@@ -16,6 +15,7 @@ public interface LabelExpressions {
      * Adds a single expression to the set.
      *
      * @param expression expression to add
+     * @param negation true if expression is to be negates, false if not
      * @return true if adding was successful, false otherwise
      */
     boolean addExpression(String expression, boolean negation);

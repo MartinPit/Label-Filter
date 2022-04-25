@@ -5,7 +5,6 @@ import cz.muni.fi.pb162.hw02.impl.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 
 /**
  *
@@ -16,8 +15,13 @@ import java.util.function.Predicate;
  */
 public class ExpressionGroup implements LabelExpressions {
 
-    private List<Predicate<String>> expressions;
+    private List<Expression> expressions;
 
+    /**
+     *
+     * Constructs and empty set of expressions
+     *
+     */
     public ExpressionGroup() {
         expressions = new ArrayList<>();
     }
@@ -28,10 +32,10 @@ public class ExpressionGroup implements LabelExpressions {
             return false;
         }
 
-        Predicate<String> predicate = s -> s.equals(expression);
+        Expression predicate = new Expression(expression);
 
         if (negation) {
-            predicate = predicate.negate();
+            predicate.makeNegative();
         }
         expressions.add(predicate);
 
@@ -40,21 +44,15 @@ public class ExpressionGroup implements LabelExpressions {
 
     @Override
     public boolean checkMatch(Set<String> labels) {
-        for (Predicate<String> predicate : expressions) {
-            if (! checkAgainstPredicate(predicate, labels)) {
-                return false;
-            }
-        }
-        return true;
-    }
+        int matchingExpressions = 0;
 
-    private boolean checkAgainstPredicate(Predicate<String> predicate, Set<String> labels) {
-        for (String label : labels) {
-            if (predicate.test(label)) {
-                return true;
+        for (Expression e : expressions) {
+            if (e.test(labels)) {
+                matchingExpressions++;
             }
         }
-        return false;
+
+        return matchingExpressions == expressions.size();
     }
 
     private boolean checkIfAlphaNumeric(String input) {
@@ -62,5 +60,15 @@ public class ExpressionGroup implements LabelExpressions {
         String onlyAlphaNumeric = StringUtils.takeWhile(input, Character::isLetterOrDigit);
 
         return onlyAlphaNumeric.length() == input.length();
+    }
+
+    @Override
+    public String toString() {
+        String returnString = "";
+        for (Expression e : expressions) {
+            returnString += e;
+            returnString += '\n';
+        }
+        return returnString;
     }
 }

@@ -13,7 +13,15 @@ public class Matcher implements LabelMatcher {
 
     private final Set<LabelExpressions> expressions;
 
+    /**
+     *
+     * Constructs a {@link LabelMatcher}, which matches label items
+     * according to the expressions given
+     *
+     * @param expressions expressions to match by
+     */
     public Matcher(Set<LabelExpressions> expressions) {
+        System.out.println(expressions);
         this.expressions = new HashSet<>(expressions);
     }
 
@@ -33,6 +41,7 @@ public class Matcher implements LabelMatcher {
     public boolean all(Iterable<HasLabels> labeled) {
         for (HasLabels item : labeled) {
             if (! matches(item)) {
+                System.out.println("Doesn't match:" + item);
                 return false;
             }
         }

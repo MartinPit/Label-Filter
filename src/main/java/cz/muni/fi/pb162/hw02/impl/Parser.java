@@ -14,10 +14,23 @@ public class Parser implements ExpressionParser {
 
     private final String originalInput;
 
-    public Parser(String expression) {
-        originalInput = expression;
+    /**
+     *
+     * Constructs a parser that parses the given input
+     *
+     * @param input string to parse
+     */
+    public Parser(String input) {
+        originalInput = input;
     }
 
+    /**
+     *
+     * Parses the string by dividing it into a Set
+     * of {@link ExpressionGroup}
+     *
+     * @return the constructed set
+     */
     public Set<LabelExpressions> parse() {
         String input = originalInput;
         Set<LabelExpressions> conditions = new HashSet<>();
