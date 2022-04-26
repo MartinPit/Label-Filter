@@ -3,10 +3,13 @@ package cz.muni.fi.pb162.hw02.impl;
 import cz.muni.fi.pb162.hw02.HasLabels;
 import cz.muni.fi.pb162.hw02.LabelFilter;
 import cz.muni.fi.pb162.hw02.LabelMatcher;
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.LabelExpression;
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.Operator;
 import cz.muni.fi.pb162.hw02.impl.utils.SetUtils;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,9 +25,10 @@ public class Filter implements LabelFilter {
      * according to the expressions given
      *
      * @param expressions expressions to filter by
+     * @param operators operator that will be used during evaluation
      */
-    public Filter(Set<LabelExpressions> expressions) {
-        this.matcher = new Matcher(expressions);
+    public Filter(List<LabelExpression> expressions, List<Operator> operators) {
+        this.matcher = new Matcher(expressions, operators);
     }
     @Override
     public Collection<HasLabels> matching(Iterable<HasLabels> labeled) {
@@ -61,9 +65,9 @@ public class Filter implements LabelFilter {
     public Collection<HasLabels> distinct(Iterable<HasLabels> fst, Iterable<HasLabels> snd) {
         Set<HasLabels> fstMatched = new HashSet<>(matching(fst));
         Set<HasLabels> sndMatched = new HashSet<>(matching(snd));
-        fstMatched.removeAll(sndMatched);
-        sndMatched.removeAll(fstMatched);
-        return SetUtils.union(fstMatched, sndMatched);
+        Set<HasLabels> tempMatched = SetUtils.union(fstMatched, sndMatched);
+        tempMatched.removeAll(intersection(fstMatched, sndMatched));
+        return tempMatched;
     }
 
     @Override

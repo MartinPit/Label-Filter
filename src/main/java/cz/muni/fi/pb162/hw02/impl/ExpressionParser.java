@@ -1,12 +1,14 @@
 package cz.muni.fi.pb162.hw02.impl;
 
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.LabelExpression;
 import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.Operator;
-import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.SimpleExpression;
 
 import java.util.List;
-import java.util.Set;
 
 /**
+ *
+ * Parser which parses the expression input string
+ *
  * @author Martin Oliver Pitonak
  */
 public interface ExpressionParser {
@@ -14,13 +16,22 @@ public interface ExpressionParser {
     /**
      *
      * Parses the expression given to it in its constructor.
-     *
-     * @return set of {@link ExpressionGroup}
      */
     void parse();
 
+    /**
+     *
+     * Returns expressions saved in its attribute
+     *
+     * @return list of {@link LabelExpression}
+     */
+    List<LabelExpression> getExpressions();
 
-    List<SimpleExpression> getExpressions();
-
+    /**
+     *
+     * Returns operators saved in its attribute
+     *
+     * @return list of {@link Operator}
+     */
     List<Operator> getOperators();
 }

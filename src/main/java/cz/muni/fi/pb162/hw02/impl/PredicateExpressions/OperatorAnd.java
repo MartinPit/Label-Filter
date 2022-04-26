@@ -5,13 +5,18 @@ package cz.muni.fi.pb162.hw02.impl.PredicateExpressions;
  */
 public class OperatorAnd implements Operator {
 
+    /**
+     *
+     * Constructs a new "&" operator
+     *
+     */
     public OperatorAnd() {
 
     }
 
     @Override
     public boolean useOperator(boolean fst, boolean snd) {
-        return false;
+        return fst && snd;
     }
 
     @Override

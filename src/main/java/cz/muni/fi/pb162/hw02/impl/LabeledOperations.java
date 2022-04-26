@@ -4,8 +4,6 @@ import cz.muni.fi.pb162.hw02.LabelMatcher;
 import cz.muni.fi.pb162.hw02.error.InvalidExpressionException;
 import cz.muni.fi.pb162.hw02.LabelFilter;
 
-import java.util.Set;
-
 /**
  * Factory for matcher production
  */
@@ -40,7 +38,11 @@ public final class LabeledOperations {
      * @return expression-based label filter
      */
     public static LabelFilter expressionFilter(String expression) {
-        return null;
+        throwIfEmpty(expression);
+
+        ExpressionParser parser = new Parser(expression);
+        parser.parse();
+        return new Filter(parser.getExpressions(), parser.getOperators());
     }
 
     private static void throwIfEmpty(String input) {

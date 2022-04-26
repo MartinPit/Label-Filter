@@ -2,8 +2,8 @@ package cz.muni.fi.pb162.hw02.impl;
 
 import cz.muni.fi.pb162.hw02.HasLabels;
 import cz.muni.fi.pb162.hw02.LabelMatcher;
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.LabelExpression;
 import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.Operator;
-import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.SimpleExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class Matcher implements LabelMatcher {
 
-    private final List<SimpleExpression> expressions;
+    private final List<LabelExpression> expressions;
     private final List<Operator> operators;
 
     /**
@@ -23,8 +23,9 @@ public class Matcher implements LabelMatcher {
      * according to the expressions given
      *
      * @param expressions expressions to match by
+     * @param operators operators that will be used for evaluation
      */
-    public Matcher(List<SimpleExpression> expressions, List<Operator> operators) {
+    public Matcher(List<LabelExpression> expressions, List<Operator> operators) {
         this.expressions = new ArrayList<>(expressions);
         this.operators = new ArrayList<>(operators);
     }

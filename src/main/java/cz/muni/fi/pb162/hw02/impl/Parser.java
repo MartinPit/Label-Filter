@@ -2,10 +2,11 @@ package cz.muni.fi.pb162.hw02.impl;
 
 
 import cz.muni.fi.pb162.hw02.error.InvalidExpressionException;
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.LabelExpression;
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.SimpleExpression;
 import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.Operator;
 import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.OperatorAnd;
 import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.OperatorOr;
-import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.SimpleExpression;
 import cz.muni.fi.pb162.hw02.impl.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ import java.util.List;
 public class Parser implements ExpressionParser {
 
     private final String originalInput;
-    private List<SimpleExpression> parsedExpressions;
-    private List<Operator> parsedOperators;
+    private final List<LabelExpression> parsedExpressions;
+    private final List<Operator> parsedOperators;
 
     /**
      *
@@ -32,7 +33,7 @@ public class Parser implements ExpressionParser {
         parsedOperators = new ArrayList<>();
     }
 
-    public List<SimpleExpression> getExpressions() {
+    public List<LabelExpression> getExpressions() {
         return parsedExpressions;
     }
 
@@ -45,7 +46,6 @@ public class Parser implements ExpressionParser {
      * Parses the string by dividing it into a Set
      * of
      *
-     * @return the constructed set
      */
     public void parse() {
         String input = originalInput;
@@ -75,12 +75,16 @@ public class Parser implements ExpressionParser {
         parsedOperators.remove(parsedOperators.size() - 1);
     }
 
-    private void addExpression(String input) {
+    private void addExpression(String input) throws InvalidExpressionException {
         int bangCount = StringUtils.countSubsequentChars(input, '!', 0);
         input = input.substring(bangCount);
         input = input.trim();
 
-        SimpleExpression expression = new SimpleExpression(input);
+        if (StringUtils.takeWhile(input, Character::isLetterOrDigit).length() != input.length()) {
+            throw new InvalidExpressionException(originalInput);
+        }
+
+        LabelExpression expression = new SimpleExpression(input);
         if (bangCount % 2 == 1) {
             expression.makeNegative();
         }
@@ -93,8 +97,8 @@ public class Parser implements ExpressionParser {
             throw new InvalidExpressionException(originalInput);
         }
 
-        Character first = input.charAt(0);
-        Character last = input.charAt(input.length() - 1);
+        char first = input.charAt(0);
+        char last = input.charAt(input.length() - 1);
 
         if (! Character.isLetterOrDigit(first)) {
             if (first != '!') {
