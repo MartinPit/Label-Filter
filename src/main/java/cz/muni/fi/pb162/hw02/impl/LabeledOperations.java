@@ -24,7 +24,11 @@ public final class LabeledOperations {
      * @return expression-based label matcher
      */
     public static LabelMatcher expressionMatcher(String expression) {
-        return null;
+        throwIfEmpty(expression);
+
+        ExpressionParser parser = new Parser(expression);
+        parser.parse();
+        return new Matcher(parser.getExpressions(), parser.getOperators());
     }
 
     /**
@@ -37,5 +41,11 @@ public final class LabeledOperations {
      */
     public static LabelFilter expressionFilter(String expression) {
         return null;
+    }
+
+    private static void throwIfEmpty(String input) {
+        if (input.length() == 0) {
+            throw new InvalidExpressionException(input);
+        }
     }
 }

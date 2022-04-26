@@ -2,16 +2,20 @@ package cz.muni.fi.pb162.hw02.impl;
 
 import cz.muni.fi.pb162.hw02.HasLabels;
 import cz.muni.fi.pb162.hw02.LabelMatcher;
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.Operator;
+import cz.muni.fi.pb162.hw02.impl.PredicateExpressions.SimpleExpression;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Martin Oliver Pitonak
  */
 public class Matcher implements LabelMatcher {
 
-    private final Set<LabelExpressions> expressions;
+    private final List<SimpleExpression> expressions;
+    private final List<Operator> operators;
 
     /**
      *
@@ -20,21 +24,26 @@ public class Matcher implements LabelMatcher {
      *
      * @param expressions expressions to match by
      */
-    public Matcher(Set<LabelExpressions> expressions) {
-        System.out.println(expressions);
-        this.expressions = new HashSet<>(expressions);
+    public Matcher(List<SimpleExpression> expressions, List<Operator> operators) {
+        this.expressions = new ArrayList<>(expressions);
+        this.operators = new ArrayList<>(operators);
     }
 
     @Override
     public boolean matches(HasLabels labeled) {
-        Set<String> labels = labeled.getLabels();
+        List<Boolean> evaluatedExpressions = evaluateExpressions(labeled);
 
-        for (LabelExpressions group : expressions) {
-            if (group.checkMatch(labels)) {
-                return true;
-            }
+        if (operators.size() == 0) {
+            return evaluatedExpressions.get(0);
         }
-        return false;
+        boolean lastResult = operators.get(0).useOperator(evaluatedExpressions.get(0),
+                                                           evaluatedExpressions.get(1));
+
+        for (int i = 1; i < operators.size(); i++) {
+            Operator op = operators.get(i);
+            lastResult = op.useOperator(lastResult, evaluatedExpressions.get(i + 1));
+        }
+        return lastResult;
     }
 
     @Override
@@ -66,5 +75,11 @@ public class Matcher implements LabelMatcher {
             }
         }
         return true;
+    }
+
+    private List<Boolean> evaluateExpressions(HasLabels labeled) {
+        return expressions.stream()
+                .map(e -> e.test(labeled.getLabels()))
+                .collect(Collectors.toList());
     }
 }

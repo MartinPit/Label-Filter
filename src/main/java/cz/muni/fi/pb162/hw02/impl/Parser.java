@@ -32,6 +32,14 @@ public class Parser implements ExpressionParser {
         parsedOperators = new ArrayList<>();
     }
 
+    public List<SimpleExpression> getExpressions() {
+        return parsedExpressions;
+    }
+
+    public List<Operator> getOperators() {
+        return parsedOperators;
+    }
+
     /**
      *
      * Parses the string by dividing it into a Set

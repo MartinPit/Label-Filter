@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 /**
  * @author Martin Oliver Pitonak
  */
-public class SimpleExpression implements Predicate<String> {
+public class SimpleExpression implements Predicate<Iterable<String>> {
 
     private final String expression;
     private boolean negation;
@@ -15,8 +15,13 @@ public class SimpleExpression implements Predicate<String> {
         negation = false;
     }
     @Override
-    public boolean test(String s) {
-        return s.equals(expression);
+    public boolean test(Iterable<String> labels) {
+        for (String label : labels) {
+            if (label.equals(expression)) {
+                return !negation;
+            }
+        }
+        return negation;
     }
 
     public void makeNegative() {
