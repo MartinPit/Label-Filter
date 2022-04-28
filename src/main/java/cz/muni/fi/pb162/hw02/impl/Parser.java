@@ -41,12 +41,7 @@ public class Parser implements ExpressionParser {
         return parsedOperators;
     }
 
-    /**
-     *
-     * Parses the string by dividing it into a Set
-     * of
-     *
-     */
+    @Override
     public void parse() {
         String input = originalInput;
         input = input.trim();
@@ -59,26 +54,38 @@ public class Parser implements ExpressionParser {
         }
 
         parsedOperators.remove(parsedOperators.size() - 1);
-        System.out.println(parsedExpressions);
-        System.out.println(parsedOperators);
     }
 
+    /**
+     *
+     * Helper method for parse, which splits the given string by "a"
+     * a parses the smaller chunks.
+     *
+     * @param input input string
+     */
     private void splitByAndParse(String input) {
         input = input.trim();
         throwIfInvalid(input);
 
         String[] parts = input.split("&");
         for (String part : parts) {
-            addExpression(part.trim());
+            saveExpression(part.trim());
             parsedOperators.add(new OperatorAnd());
         }
         parsedOperators.remove(parsedOperators.size() - 1);
     }
 
-    private void addExpression(String input) throws InvalidExpressionException {
+    /**
+     *
+     * Checks and saves the representation of the label expression into a
+     * list of expressions.
+     *
+     * @param input expression to be saved
+     */
+    private void saveExpression(String input) {
+        input = input.replaceAll("\\s+", "");
         int bangCount = StringUtils.countSubsequentChars(input, '!', 0);
         input = input.substring(bangCount);
-        input = input.trim();
 
         if (StringUtils.takeWhile(input, Character::isLetterOrDigit).length() != input.length()) {
             throw new InvalidExpressionException(originalInput);
@@ -91,6 +98,13 @@ public class Parser implements ExpressionParser {
         parsedExpressions.add(expression);
     }
 
+    /**
+     *
+     * Utility method to check the validity of the input string
+     *
+     * @param input string to check
+     * @throws InvalidExpressionException throws if not valid
+     */
     private void throwIfInvalid(String input) throws InvalidExpressionException {
 
         if (input.length() == 0) {

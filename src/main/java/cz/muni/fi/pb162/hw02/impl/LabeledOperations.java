@@ -45,6 +45,14 @@ public final class LabeledOperations {
         return new Filter(parser.getExpressions(), parser.getOperators());
     }
 
+    /**
+     *
+     * Utility method that throws an exception if string
+     * is empty.
+     *
+     * @param input string to check
+     * @throws InvalidExpressionException if string is empty
+     */
     private static void throwIfEmpty(String input) {
         if (input.length() == 0) {
             throw new InvalidExpressionException(input);

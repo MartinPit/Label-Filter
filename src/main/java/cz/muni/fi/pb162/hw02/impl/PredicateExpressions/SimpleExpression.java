@@ -28,20 +28,8 @@ public class SimpleExpression implements LabelExpression{
         return negation;
     }
 
-    /**
-     *
-     * Negates the expression
-     *
-     */
+    @Override
     public void makeNegative() {
         negation = true;
-    }
-
-    @Override
-    public String toString() {
-        if (negation) {
-            return "!" + expression;
-        }
-        return expression;
     }
 }

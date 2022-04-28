@@ -51,7 +51,6 @@ public class Matcher implements LabelMatcher {
     public boolean all(Iterable<HasLabels> labeled) {
         for (HasLabels item : labeled) {
             if (! matches(item)) {
-                System.out.println("Doesn't match:" + item);
                 return false;
             }
         }
@@ -78,6 +77,15 @@ public class Matcher implements LabelMatcher {
         return true;
     }
 
+    /**
+     *
+     * Evaluates all the expressions in the attribute against
+     * the given {@link HasLabels} object
+     *
+     * @param labeled object to evaluate to
+     * @return a list of Boolean values each representing an outcome
+     *         of a single expression
+     */
     private List<Boolean> evaluateExpressions(HasLabels labeled) {
         return expressions.stream()
                 .map(e -> e.test(labeled.getLabels()))

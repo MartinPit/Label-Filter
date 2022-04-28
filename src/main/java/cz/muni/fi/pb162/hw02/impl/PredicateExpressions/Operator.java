@@ -2,7 +2,7 @@ package cz.muni.fi.pb162.hw02.impl.PredicateExpressions;
 
 /**
  *
- * Represent an operator used to compare 2 boolean values.
+ * Represent an expression operator used to compare 2 boolean values.
  *
  * @author Martin Oliver Pitonak
  */

@@ -15,7 +15,9 @@ public interface ExpressionParser {
 
     /**
      *
-     * Parses the expression given to it in its constructor.
+     * Checks and parses the given string and stores
+     * the parsed representation into its attributes.
+     *
      */
     void parse();
 
