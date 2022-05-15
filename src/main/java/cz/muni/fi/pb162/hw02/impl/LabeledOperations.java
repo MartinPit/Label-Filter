@@ -22,7 +22,11 @@ public final class LabeledOperations {
      * @return expression-based label matcher
      */
     public static LabelMatcher expressionMatcher(String expression) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throwIfEmpty(expression);
+
+        ExpressionParser parser = new Parser(expression);
+        parser.parse();
+        return new Matcher(parser.getExpressions(), parser.getOperators());
     }
 
     /**
@@ -34,6 +38,24 @@ public final class LabeledOperations {
      * @return expression-based label filter
      */
     public static LabelFilter expressionFilter(String expression) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        throwIfEmpty(expression);
+
+        ExpressionParser parser = new Parser(expression);
+        parser.parse();
+        return new Filter(parser.getExpressions(), parser.getOperators());
+    }
+
+    /**
+     *
+     * Utility method that throws an exception if string
+     * is empty.
+     *
+     * @param input string to check
+     * @throws InvalidExpressionException if string is empty
+     */
+    private static void throwIfEmpty(String input) {
+        if (input.length() == 0) {
+            throw new InvalidExpressionException(input);
+        }
     }
 }
